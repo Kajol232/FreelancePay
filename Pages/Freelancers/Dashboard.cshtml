@@ -1,0 +1,55 @@
+﻿@page
+@model FreelancePay.Pages.Freelancers.DashboardModel
+@{
+    ViewData["Title"] = "Freelancer Dashboard";
+}
+
+<h2>Welcome : @Model.Username</h2>
+
+<!-- Statistics Section -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Invoices  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.TotalInvoices  |  @Model.TotalInvoicesCount</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Paid Invoices | Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.PaidInvoices  |  @Model.PaidInvoicesCount</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Pending Invoices  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.PendingInvoices  |  @Model.PendingInvoicesCount</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Overdue Invoices  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.OverdueInvoices  |  @Model.OverdueInvoicesCount</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Invoice Management Section -->
+<div class="row">
+    <div class="col-md-6">
+        <!-- Partial View for Creating a New Invoice -->
+        <partial name="CreateInvoicePartial" model="Model.CreateInvoiceModel" />
+    </div>
+    <div class="col-md-6">
+        <!-- Partial View for Listing Invoices -->
+        <partial name="ListInvoicesPartial" model="Model.Invoices" />
+    </div>
+</div>

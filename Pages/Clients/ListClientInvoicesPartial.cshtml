@@ -1,0 +1,82 @@
+﻿@model IEnumerable<FreelancePay.Entities.Invoice>
+
+<h3>List of Invoices</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Freelancer</th>
+            <th>Amount</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.Description</td>
+                <td>@invoice.Freelancer.Username</td>
+                <td>@invoice.Amount</td>
+                <td>@invoice.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>@invoice.Status</td>
+                <td>
+                    @if (invoice.Status == Entities.InvoiceStatus.Pending || invoice.Status == Entities.InvoiceStatus.Extended)
+                    {
+
+                        <!-- Button to make payment -->
+                        <a asp-page-handler="Pay" asp-route-id="@invoice.InvoiceId" class="btn btn-primary">Pay Invoice</a>
+
+                        <!-- Button to cancel the invoice -->
+                        <a asp-page-handler="Cancel" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }
+                    else if (invoice.Status == Entities.InvoiceStatus.Overdue)
+                    {
+                        
+                        <!-- Button to show the inline form -->
+                        <button class="btn btn-info" onclick="showDueDateForm('@invoice.InvoiceId')">Extend Due Date</button>
+
+                        <!-- Hidden inline form (shown when user clicks the button) -->
+                        <div id="dueDateForm-@invoice.InvoiceId" style="display: none; margin-top: 10px;">
+                            <form asp-page-handler="SetNewDueDate" method="post">
+                                <input type="hidden" name="InvoiceId" value="@invoice.InvoiceId" />
+                                <div class="form-group">
+                                    <label for="newDueDate">New Due Date</label>
+                                    <input type="date" name="NewDueDate" class="form-control" required />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+
+                        <!-- Button to cancel the overdue invoice -->
+                        <a asp-page-handler="Cancel" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }
+                    else if (invoice.Status == Entities.InvoiceStatus.PendingClientVerification)
+                    {
+                        <!-- Inline form for verifying payment -->
+                        <a asp-page-handler="VerifyPayment" asp-route-id="@invoice.InvoiceId" class="btn btn-primary">Verify</a>
+
+                        <!-- Button to cancel the invoice -->
+                        <a asp-page-handler="Cancel" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function showDueDateForm(invoiceId) {
+        // Hide all other inline forms
+        const forms = document.querySelectorAll('div[id^="dueDateForm-"]');
+        forms.forEach(form => form.style.display = 'none');
+
+        // Show the selected form by changing its display style
+        const formToShow = document.getElementById('dueDateForm-' + invoiceId);
+        if (formToShow) {
+            formToShow.style.display = 'block';
+        }
+    }
+</script>
+
+

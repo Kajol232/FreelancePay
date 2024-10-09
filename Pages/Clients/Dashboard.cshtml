@@ -1,0 +1,59 @@
+﻿@page
+@model FreelancePay.Pages.Clients.DashboardModel
+@{
+    ViewData["Title"] = "Client Dashboard";
+}
+
+<h2>Welcome : @Model.Name</h2>
+
+<!-- Statistics Section -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Spent  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.TotalSpent  |  @Model.TotalSpentCount</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Pending Payments  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.PendingPayments  |  @Model.PendingPaymentsCount</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Extended Invoices  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ExtendedPayments  |  @Model.Extended</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Overdue Invoices  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.TotalOverduePayments  | @Model.TotalOverdue</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Refunded Payment  |  Count</div>
+            <div class="card-body">
+                <h5 class="card-title">0  |  0</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Invoice Management Section -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Partial View for Listing Invoices -->
+        <partial name="ListClientInvoicesPartial" model="Model.Invoices" />
+    </div>
+</div>

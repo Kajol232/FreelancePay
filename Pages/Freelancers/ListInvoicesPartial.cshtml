@@ -1,0 +1,47 @@
+﻿@model IEnumerable<FreelancePay.Entities.Invoice>
+
+<h3>List of Invoices</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.Description</td>
+                <td>@invoice.Client.Username</td>
+                <td>@invoice.Amount</td>
+                <td>@invoice.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>@invoice.Status</td>
+                <td>
+                    @if (invoice.Status == Entities.InvoiceStatus.Pending || invoice.Status == Entities.InvoiceStatus.Overdue || invoice.Status == Entities.InvoiceStatus.Extended)
+                    {
+                        <!-- Button to cancel the invoice -->
+                        <a asp-page-handler="Cancel" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }
+                    else if (invoice.Status == Entities.InvoiceStatus.Pending)
+                    {
+                        <a asp-page-handler="CancelInvoice" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }else if(invoice.Status == Entities.InvoiceStatus.PendingFreelancerVerification)
+                    {
+                        <a asp-page-handler="VerifyPayment" asp-route-id="@invoice.InvoiceId" class="btn btn-info">Verify</a>
+                        <a asp-page-handler="CancelInvoice" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                    }else if(invoice.Status == Entities.InvoiceStatus.PendingExtensionAcceptance)
+                    {
+                        <a asp-page-handler="AcceptExtension" asp-route-id="@invoice.InvoiceId" class="btn btn-info">Accept</a>
+                        <a asp-page-handler="CancelInvoice" asp-route-id="@invoice.InvoiceId" class="btn btn-danger">Cancel</a>
+                        
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

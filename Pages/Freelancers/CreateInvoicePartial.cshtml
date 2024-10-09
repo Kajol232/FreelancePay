@@ -1,0 +1,23 @@
+﻿@model FreelancePay.Contract.Models.CreateInvoiceModel
+
+<h3>Create New Invoice</h3>
+<form method="post" asp-page-handler="CreateInvoice">
+    <div class="form-group">
+        <label for="ClientId">Client</label>
+        <select asp-for="ClientId" asp-items="ViewBag.Clients" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount</label>
+        <input asp-for="Amount" type="number" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+    <label for="description">Description</label>
+    <input asp-for="Description" type="text" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create Invoice</button>
+</form>
+    
