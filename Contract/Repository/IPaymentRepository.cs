@@ -7,5 +7,6 @@ namespace FreelancePay.Contract.Repository
         Task<Payment> GetPaymentById(Guid id);
         Task<bool> UpdatePaymentStatus(Guid id, PaymentStatus status);
         Task<Payment> CreatePayment(Payment payment);
+        Task<Payment> GetPaymentByInvoiceId(Guid invoiceId);
     }
 }

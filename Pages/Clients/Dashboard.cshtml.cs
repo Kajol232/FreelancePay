@@ -189,6 +189,29 @@ namespace FreelancePay.Pages.Clients
 
 
         }
+        public async Task<IActionResult> OnGetRefundAsync(Guid id)
+        {
+            var invoice = await _invoiceRepository.Get(id);
+
+            if (invoice == null)
+            {
+                return NotFound("Invoice not found");
+            }
+            if (invoice.Status != InvoiceStatus.Overdue && invoice.Status != InvoiceStatus.ExtendedOverdue)
+            {
+                return BadRequest("You can only request for response for an that its extended overdue or overdue");
+            }
+
+            var payment = await _paymentRepository.GetPaymentByInvoiceId(invoice.InvoiceId);
+            //can refund endpoint
+            payment.Status = Entities.PaymentStatus.Refunded;
+            invoice.Status = InvoiceStatus.Cancelled;
+            await _paymentRepository.UpdatePaymentStatus(payment.PaymentId, Entities.PaymentStatus.Refunded);
+            await _invoiceRepository.Update(invoice, id);
+            return RedirectToPage();
+
+
+        }
 
         private async Task<AppUser> GetClient()
         {

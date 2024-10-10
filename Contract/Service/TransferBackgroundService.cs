@@ -18,7 +18,8 @@ namespace FreelancePay.Contract.Service
             while (!stoppingToken.IsCancellationRequested)
             {
                 await InitiateTransferAsync();
-                await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
+                await VerifyTransferAsync();
+                await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
             }
         }
 
@@ -85,6 +86,11 @@ namespace FreelancePay.Contract.Service
                         transfer.Status = TransferStatus.TransferSuccessful;
                         invoice.Status = InvoiceStatus.Paid;
                         payment.Status = PaymentStatus.Transferred;
+
+                        dbContext.Invoices.Update(invoice);
+                        dbContext.Payments.Update(payment);
+                        dbContext.Transfers.Update(transfer);
+                        dbContext.SaveChanges();
 
                     }
                 }

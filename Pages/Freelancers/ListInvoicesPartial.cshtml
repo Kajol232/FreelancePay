@@ -9,6 +9,7 @@
             <th>Amount</th>
             <th>Due Date</th>
             <th>Status</th>
+            <th>Extended</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -21,6 +22,9 @@
                 <td>@invoice.Amount</td>
                 <td>@invoice.DueDate.ToString("yyyy-MM-dd")</td>
                 <td>@invoice.Status</td>
+                <td>
+                    <input type="checkbox" disabled="disabled" @(invoice.isExtended ? "checked" : "") />
+                </td>
                 <td>
                     @if (invoice.Status == Entities.InvoiceStatus.Pending || invoice.Status == Entities.InvoiceStatus.Overdue || invoice.Status == Entities.InvoiceStatus.Extended)
                     {

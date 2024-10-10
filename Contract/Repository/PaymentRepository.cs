@@ -1,4 +1,5 @@
 ﻿using FreelancePay.Entities;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace FreelancePay.Contract.Repository
@@ -23,6 +24,12 @@ namespace FreelancePay.Contract.Repository
         public async Task<Payment> GetPaymentById(Guid id)
         {
             return await _context.Payments.FindAsync(id);
+        }
+
+        public async Task<Payment> GetPaymentByInvoiceId(Guid invoiceId)
+        {
+           return await _context.Payments
+            .FirstOrDefaultAsync(p => p.InvoiceId == invoiceId);
         }
 
         public async Task<bool> UpdatePaymentStatus(Guid invoiceId, PaymentStatus status)

@@ -26,7 +26,7 @@ namespace FreelancePay.Contract.Repository
             {
                 return false;
             }
-            invoice.Status = InvoiceStatus.Cancelled;
+            invoice.Status = InvoiceStatus.Deleted;
             await _context.SaveChangesAsync();
             return true;
         }

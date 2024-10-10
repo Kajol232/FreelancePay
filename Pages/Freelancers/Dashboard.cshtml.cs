@@ -163,6 +163,7 @@ namespace FreelancePay.Pages.Freelancers
                 return BadRequest("You can only accept a proposed new date for an overdue invoice");
             }
             invoice.Status = InvoiceStatus.Extended;
+            invoice.isExtended = true;
             await _invoiceRepository.Update(invoice, id);
             return RedirectToPage();
 

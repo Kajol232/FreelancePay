@@ -11,6 +11,7 @@ namespace FreelancePay.Contract.Service
        public Task<string> ResolveAccount(string bankCode, string accountNumber);
        public Task<string> CreateRecipient(string accountName, string accountNumber, string bankCode);
        public Task<bool> VerifyTransfer(string reference);
+        //public Task<bool> Refund(string reference);
 
     }
 }

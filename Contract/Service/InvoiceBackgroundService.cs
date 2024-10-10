@@ -30,11 +30,14 @@ namespace FreelancePay.Contract.Service
                 var now = DateTime.UtcNow.ToLocalTime();
 
                 var overdueInvoices = await dbContext.Invoices
-                    .Where(i => i.DueDate < now && i.Status == InvoiceStatus.Pending).ToListAsync();
+                    .Where(i => i.DueDate < now && 
+                    (i.Status == InvoiceStatus.Pending || i.Status == InvoiceStatus.PendingFreelancerVerification 
+                    || i.Status == InvoiceStatus.PendingClientVerification) && i.isExtended == false).ToListAsync();
 
                 foreach (var invoice in overdueInvoices)
                 {
                     invoice.Status = InvoiceStatus.Overdue;
+
                 }
 
                 var extendedOverdueInvoices = await dbContext.Invoices

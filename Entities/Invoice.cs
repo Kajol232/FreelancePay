@@ -13,7 +13,7 @@
         public AppUser Client { get; set; }
         public Guid FreelancerId { get; set; }   
         public AppUser Freelancer {  get; set; }
-       
+        public bool isExtended { get; set; }       
     }
 
     public enum InvoiceStatus
